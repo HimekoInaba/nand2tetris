@@ -1,0 +1,77 @@
+OR
+x y z
+0 0 0
+0 1 1
+1 0 1
+1 1 1
+
+AND
+x y z
+0 0 0
+0 1 0
+1 0 0
+1 1 1
+
+NAND
+x y z
+0 0 1
+0 1 1
+1 0 1
+1 1 0
+
+XOR
+x y z
+0 0 0
+0 1 1
+1 0 1
+1 1 0
+
+De Morgan's Law
+NOT(AND(x, y)) = OR(NOT(x), NOT(y))
+NOT(OR(x, y)) = AND(NOT(x), NOT(y))
+
+Multiplexor (MUX)
+sel out
+0   a
+1   b
+
+
+MUX             Normal Form
+x y sel out
+0 0 0   0       
+0 1 0   0
+1 0 0   1       AND(x, AND(NOT(y), NOT(sel))) 
+1 1 0   1       AND(x,AND(y, NOT(sel)))
+0 0 1   0
+0 1 1   1       AND(NOT(x), AND(y, sel))
+1 0 1   0
+1 1 1   1       AND(x, AND(y, sel))
+
+AND(x, AND(NOT(y), NOT(sel))) OR AND(x, AND(y, NOT(sel))) OR AND(NOT(x), AND(y, sel)) OR AND(x, AND(y, sel))
+=
+AND(x, NOT(OR(y, sel))
+
+Demultiplexor (DEMUX)
+sel a   b
+0   in  0
+1   0   in
+
+in sel a  b
+0  0   0  0
+0  1   0  0
+1  0   1  0
+1  1   0  1  
+
+a -> AND(in, NOT(sel)) 
+b -> AND(in, sel)
+
+
+
+
+
+
+
+
+
+
+
