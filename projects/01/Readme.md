@@ -1,0 +1,119 @@
+OR
+x y z
+0 0 0
+0 1 1
+1 0 1
+1 1 1
+
+AND
+x y z
+0 0 0
+0 1 0
+1 0 0
+1 1 1
+
+NAND
+x y z
+0 0 1
+0 1 1
+1 0 1
+1 1 0
+
+XOR
+x y z
+0 0 0
+0 1 1
+1 0 1
+1 1 0
+
+De Morgan's Law
+NOT(AND(x, y)) = OR(NOT(x), NOT(y))
+NOT(OR(x, y)) = AND(NOT(x), NOT(y))
+
+Multiplexor (MUX)
+sel out
+0   a
+1   b
+
+OR(AND(NOT(sel), x)), AND(sel, y)
+
+
+MUX             Normal Form
+x y sel out
+0 0 0   0       
+0 1 0   0
+1 0 0   1       AND(x, AND(NOT(y), NOT(sel))) 
+1 1 0   1       AND(x,AND(y, NOT(sel)))
+0 0 1   0
+0 1 1   1       AND(NOT(x), AND(y, sel))
+1 0 1   0
+1 1 1   1       AND(x, AND(y, sel))
+
+AND(x, AND(NOT(y), NOT(sel))) OR AND(x, AND(y, NOT(sel))) OR AND(NOT(x), AND(y, sel)) OR AND(x, AND(y, sel))
+=
+AND(x, NOT(OR(y, sel)) OR ...
+
+Demultiplexor (DMUX)
+sel a   b
+0   in  0
+1   0   in
+
+in sel a  b
+0  0   0  0
+0  1   0  0
+1  0   1  0
+1  1   0  1  
+
+a -> AND(in, NOT(sel)) 
+b -> AND(in, sel)
+
+Mux4Way16
+We already have Mux16, so we can think about the problem as just Mux4Way
+a b c d sel1 sel2 out
+0 0 0 0  0    0   0
+0 0 0 1  0    0   0
+1 0 0 0  0    0   1
+0 1 0 0  0    1   1
+0 0 1 0  1    0   1
+0 0 0 1  1    1   1
+...
+yeah, it's 2^6 = 64 possible variants, too much for converting it to normal form
+
+sel1 sel2 out
+0     0    a    AND(NOT(sel1), NOT(sel2))  
+0     1    b    AND(NOT(sel1), sel2))
+1     0    c    AND(sel1, NOT(sel2))
+1     1    d    AND(sel1, sel2)
+
+Mux(a, c, sel1)
+Mux(b, d, sel2)
+
+
+DMux4Way
+a   b  c  d  sel[1] sel[0]
+in  0  0  0   0     0  
+0   in 0  0   0     1
+0   0  in 0   1     0
+0   0  0  in  1     1
+
+a = AND(in, AND(NOT(sel1), NOT(sel2)))
+b = AND(in, AND(NOT(sel1), sel0))
+c = AND(in, AND(sel1, NOT(sel0)))
+d = AND(in, AND(sel1, sel0))
+
+DMux8Way
+a   b   c   d   e   f   g   h   sel[2]    sel[1]    sel[0]
+in  0   0   0   0   0   0   0   0         0         0
+0   in  0   0   0   0   0   0   0         0         1
+0   0   in  0   0   0   0   0   0         1         0
+0   0   0   in  0   0   0   0   0         1         1
+0   0   0   0   in  0   0   0   1         0         0
+0   0   0   0   0   in  0   0   1         0         1
+0   0   0   0   0   0   in  0   1         1         0
+0   0   0   0   0   0   0   in  1         1         1
+
+a=AND(in, AND(NOT(sel2), AND(NOT(sel1), NOT(sel0))))
+b=AND(in, AND(NOT(sel2),
+
+
+
