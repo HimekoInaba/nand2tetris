@@ -42,5 +42,28 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    Mux16(a=x, b[0..15]=false, sel=zx, out=zxr);            // check for zero - x
+
+    Not16(in=zxr, out=notzxr);                              // negate x
+    Mux16(a=zxr, b=notzxr, sel=nx, out=nxr);                // check for negation - x
+
+    Mux16(a=y, b[0..15]=false, sel=zy, out=zyr);            // check for zero - y
+
+    Not16(in=zyr, out=notzyr);                              // negate y
+    Mux16(a=zyr, b=notzyr, sel=ny, out=nyr);                // check for negation - y
+
+    Add16(a=nxr, b=nyr, out=sum);                           // x + y
+    And16(a=nxr, b=nyr, out=and);                           // x & y
+    Mux16(a=and, b=sum, sel=f, out=fres);                   // choose sum or and
+
+    Not16(in=fres, out=nres);                               // negate result
+    Mux16(a=fres, b=nres, sel=no, out=out,                  // check for result negation
+                                  out[0..7]=reslower,       // get 8 LSB
+                                  out[8..15]=resupper,      // get 8 MSB
+                                  out[15]=ng);              // check for negative result (2s complement: 2^n - 1 first negative)
+
+    Or8Way(in=reslower, out=lower);                         // is there any 1s in LSB?
+    Or8Way(in=resupper, out=upper);                         // is there any 1s in MSB?
+    Or(a=lower, b=upper, out=anyones);                      // check is there any 1s in result
+    Not(in=anyones, out=zr);                                // check for out == 0
 }
