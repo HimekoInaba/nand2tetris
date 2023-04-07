@@ -1,0 +1,18 @@
+
+(LOOP)
+  kbd = read from kdb
+  i = 0
+  n = 15
+  (FILL_LOOP)
+    if (i == n) goto LOOP
+    if (kbd == 0) goto CLEAR
+    RAM[screen_addr] = -1   // fill screen
+    (CLEAR)
+    RAM[screen_addr] = 0    // clear screen
+    i++
+    screen_addr++
+    goto FILL_LOOP
+
+
+  goto LOOP
+
